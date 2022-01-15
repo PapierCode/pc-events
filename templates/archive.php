@@ -6,7 +6,7 @@
  */  
 
  
-global $settings_pc, $settings_project, $pc_post, $events_query, $events_page_number;
+global $settings_pc, $pc_post, $events_query, $events_page_number;
 
 $event_archive_permalink = $pc_post->permalink; // page courante
 

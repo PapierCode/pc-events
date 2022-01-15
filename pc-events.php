@@ -35,7 +35,7 @@ add_action( 'admin_enqueue_scripts', 'pc_events_admin_enqueue_scripts' );
 		
 			wp_enqueue_script( 'jquery-ui-datepicker' );
 			wp_enqueue_style( 'admin-datepicker-css', 'https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css' );
-			wp_enqueue_script( 'google-map', 'https://maps.googleapis.com/maps/api/js?key=AIzaSyDU6rR1KfpzS9gwQJ4SGXXSk23hIcHAxps' );
+			wp_enqueue_script( 'google-map', 'https://maps.googleapis.com/maps/api/js?key=' );
 
 		}
 
@@ -45,18 +45,6 @@ add_action( 'admin_enqueue_scripts', 'pc_events_admin_enqueue_scripts' );
 /*=====  FIN Dépendances  =====*/
 
 include 'admin.php';
-
-// add_filter( 'pc_filter_metabox_image_for', 'pc_events_edit_metabox_for', 10, 1 );
-// add_filter( 'pc_filter_metabox_card_for', 'pc_events_edit_metabox_for', 10, 1 );
-// add_filter( 'pc_filter_metabox_seo_for', 'pc_events_edit_metabox_for', 10, 1 );
-
-//     function pc_events_edit_metabox_for( $for ) {
-
-//         $for[] = EVENTS_POST_SLUG;
-//         return $for;
-        
-//     }
-
 
 add_action( 'plugins_loaded', 'pc_events_setup' );
 
