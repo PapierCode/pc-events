@@ -1,0 +1,74 @@
+<?php
+
+/*
+Plugin Name: [PC] Événements
+Plugin URI: www.papier-code.fr
+Description: Actualités
+Version: 1.0.0
+Author: Papier Codé
+*/
+
+
+define( 'EVENTS_POST_SLUG', 'events' );
+define( 'EVENTS_TAX_SLUG', 'taxevents' );
+
+add_filter( 'query_vars', 'pc_events_query_vars' );
+
+	function pc_events_query_vars( $vars ) {
+
+		$vars[] = 'eventarchive';
+		$vars[] = 'eventtax';
+		return $vars;
+
+	}
+	
+
+/*===================================
+=            Dépendances            =
+===================================*/
+
+add_action( 'admin_enqueue_scripts', 'pc_events_admin_enqueue_scripts' );
+
+	function pc_events_admin_enqueue_scripts( $hook_suffix ) {
+		
+		if ( in_array( $hook_suffix, array( 'post.php', 'post-new.php') ) ) {
+		
+			wp_enqueue_script( 'jquery-ui-datepicker' );
+			wp_enqueue_style( 'admin-datepicker-css', 'https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css' );
+			wp_enqueue_script( 'google-map', 'https://maps.googleapis.com/maps/api/js?key=AIzaSyDU6rR1KfpzS9gwQJ4SGXXSk23hIcHAxps' );
+
+		}
+
+	};
+
+
+/*=====  FIN Dépendances  =====*/
+
+include 'admin.php';
+
+// add_filter( 'pc_filter_metabox_image_for', 'pc_events_edit_metabox_for', 10, 1 );
+// add_filter( 'pc_filter_metabox_card_for', 'pc_events_edit_metabox_for', 10, 1 );
+// add_filter( 'pc_filter_metabox_seo_for', 'pc_events_edit_metabox_for', 10, 1 );
+
+//     function pc_events_edit_metabox_for( $for ) {
+
+//         $for[] = EVENTS_POST_SLUG;
+//         return $for;
+        
+//     }
+
+
+add_action( 'plugins_loaded', 'pc_events_setup' );
+
+	function pc_events_setup() {
+
+		include 'post/register.php';
+		include 'post/fields.php';
+		
+		include 'templates/filters.php';
+		include 'templates/home.php';
+		include 'templates/card.php';
+		include 'templates/single.php';
+		include 'templates/schemas.php';
+
+	}
