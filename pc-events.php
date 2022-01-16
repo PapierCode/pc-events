@@ -35,7 +35,9 @@ add_action( 'admin_enqueue_scripts', 'pc_events_admin_enqueue_scripts' );
 		
 			wp_enqueue_script( 'jquery-ui-datepicker' );
 			wp_enqueue_style( 'admin-datepicker-css', 'https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css' );
-			wp_enqueue_script( 'google-map', 'https://maps.googleapis.com/maps/api/js?key=' );
+
+			global $settings_pc;
+			wp_enqueue_script( 'google-map', 'https://maps.googleapis.com/maps/api/js?key='.$settings_pc['google-map-api-key'] );
 
 		}
 
