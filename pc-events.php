@@ -16,8 +16,9 @@ add_filter( 'query_vars', 'pc_events_query_vars' );
 
 	function pc_events_query_vars( $vars ) {
 
-		$vars[] = 'eventarchive';
+		$vars[] = 'eventpast';
 		$vars[] = 'eventtax';
+		$vars[] = 'eventpaged';
 		return $vars;
 
 	}
@@ -46,6 +47,11 @@ add_action( 'admin_enqueue_scripts', 'pc_events_admin_enqueue_scripts' );
 
 /*=====  FIN Dépendances  =====*/
 
+/*================================
+=            Includes            =
+================================*/
+
+include 'tools.php';
 include 'admin.php';
 
 add_action( 'plugins_loaded', 'pc_events_setup' );
@@ -53,12 +59,11 @@ add_action( 'plugins_loaded', 'pc_events_setup' );
 	function pc_events_setup() {
 
 		include 'post/register.php';
-		include 'post/fields.php';
-		
-		include 'templates/filters.php';
-		include 'templates/home.php';
-		include 'templates/card.php';
-		include 'templates/single.php';
-		include 'templates/schemas.php';
+		include 'post/fields_post.php';
+		include 'post/fields_taxonomy.php';
+		include 'templates.php';
 
 	}
+
+
+/*=====  FIN Includes  =====*/

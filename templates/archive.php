@@ -6,9 +6,8 @@
  */  
 
  
-global $settings_pc, $pc_post, $events_query, $events_page_number;
-
-$event_archive_permalink = $pc_post->permalink; // page courante
+global $settings_pc, $pc_post, $events_archive_query, $events_page_number;
+$today = date('Y-m-d');
 
 // page en cours (pager)
 $events_page_number = ( get_query_var( 'paged' ) ) ? get_query_var( 'paged' ) : 1;
@@ -17,9 +16,8 @@ $events_page_number = ( get_query_var( 'paged' ) ) ? get_query_var( 'paged' ) : 
 =            Query            =
 =============================*/
 
-$today = date('Y-m-d');
 
-$events_query_args = array(
+$events_archive_query_args = array(
     'post_type' => EVENTS_POST_SLUG,
     'posts_per_page' => get_option( 'posts_per_page' ),
     'paged' => $events_page_number,
@@ -31,10 +29,10 @@ $events_query_args = array(
 
 /*----------  À venir / archive  ----------*/
 
-if ( '' != get_query_var('eventarchive') ) {
+if ( get_query_var('eventpast') ) {
 
 	// événements passés
-	$events_query_args['meta_query'] = array(
+	$events_archive_query_args['meta_query'] = array(
 		array(
 			'key'     => 'event-date-end',
 			'value'   => $today,
@@ -46,7 +44,7 @@ if ( '' != get_query_var('eventarchive') ) {
 } else {
 
 	// événements à venir
-	$events_query_args['meta_query'] = array(
+	$events_archive_query_args['meta_query'] = array(
 		'relation' => 'OR',
 		array(
 			'key'     => 'event-date-start',
@@ -66,9 +64,9 @@ if ( '' != get_query_var('eventarchive') ) {
 
 /*----------  Taxonomie (filtre)  ----------*/
 
-if ( 'filters' == $settings_pc['events-tax'] && '' != get_query_var('eventtax') ) {
+if ( 'filters' == $settings_pc['events-tax'] && get_query_var('eventtax') ) {
 
-	$events_query_args['tax_query'] = array(
+	$events_archive_query_args['tax_query'] = array(
         array(
             'taxonomy' => EVENTS_TAX_SLUG,
             'field'    => 'term_id',
@@ -85,19 +83,19 @@ if ( 'filters' == $settings_pc['events-tax'] && '' != get_query_var('eventtax') 
 =            Affichage            =
 =================================*/
 
-$events_query = new WP_Query( $events_query_args );
+$events_archive_query = new WP_Query( $events_archive_query_args );
 
-if ( $events_query->have_posts() ) {
+if ( $events_archive_query->have_posts() ) {
 
 	/*----------  Filtres  ----------*/
 	
-	if ( '' != $settings_pc['events-tax'] ) { pc_events_display_filters( $pc_post ); }
+	pc_events_display_filters( sanitize_key( get_query_var('eventtax'), $pc_post->permalink ),  );
 
 
 	/*----------  Liste  ----------*/
 
 	// données structurées
-	$events_schema = array(
+	$events_archive_schema = array(
 		'@context' => 'http://schema.org/',
 		'@type'=> 'CollectionPage',
 		'name' => $pc_post->get_seo_meta_title(),
@@ -115,17 +113,17 @@ if ( $events_query->have_posts() ) {
 	echo '<ul class="st-list st-list--events reset-list">';
 
 	// affichage des actus
-    while ( $events_query->have_posts() ) { $events_query->the_post();
+    while ( $events_archive_query->have_posts() ) { $events_archive_query->the_post();
 		
 		// début d'élément
 		echo '<li class="st st--event">';
 
-			$events_post = new PC_Post( $events_query->post );
+			$pc_post_card = new PC_Post( $events_archive_query->post );
 
 			// affichage résumé
-			$events_post->display_card();
+			$pc_post_card->display_card();
 			// données structurées
-			$events_schema['mainEntity']['itemListElement'][] = $events_post->get_schema_list_item( $events_list_item_key );
+			$events_archive_schema['mainEntity']['itemListElement'][] = $pc_post_card->get_schema_list_item( $events_list_item_key );
 			$events_list_item_key++;
 		
 		// fin d'élément
@@ -135,16 +133,8 @@ if ( $events_query->have_posts() ) {
 	
 	echo '</ul>';
 
-	echo '<div class="events-archive-toggle">';
-		if ( '' == get_query_var('eventarchive') ) {
-			echo '<a href="'.$pc_post->permalink.'?eventarchive=1" class="button" title="Afficher les événements passés"><span class="ico">'.pc_svg('more-s').'</span><span class="txt">Archives</span></a>';
-		} else {
-			echo '<a href="'.$pc_post->permalink.'" class="button"><span class="ico">'.pc_svg('more-s').'</span><span class="txt">Événements à venir</span></a>';
-		}
-	echo '</div>';
-
 	// affichage données structurées
-	echo '<script type="application/ld+json">'.json_encode($events_schema,JSON_UNESCAPED_SLASHES).'</script>';
+	echo '<script type="application/ld+json">'.json_encode($events_archive_schema,JSON_UNESCAPED_SLASHES).'</script>';
 	
 
 	/*----------  Pagination  ----------*/
@@ -153,10 +143,10 @@ if ( $events_query->have_posts() ) {
 
 		function pc_events_display_archive_pager() {
 			
-			global $events_query, $events_page_number;
+			global $events_archive_query, $events_page_number;
 
-			if ( $events_query->found_posts > get_option( 'posts_per_page' ) ) {
-				pc_get_pager( $events_query, $events_page_number );
+			if ( $events_archive_query->found_posts > get_option( 'posts_per_page' ) ) {
+				pc_get_pager( $events_archive_query, $events_page_number );
 			}
 			
 		}
@@ -166,27 +156,17 @@ if ( $events_query->have_posts() ) {
 
 } else {
 	
-	// rien d'archivé dans la catégorie
-	if ( '' != get_query_var('eventarchive') && '' != get_query_var('eventtax') ) {
-		$no_result_term = get_term_by( 'ID', get_query_var('eventtax'), EVENTS_TAX_SLUG );
-		$no_result = 'Il n\'y a <strong>pas d\'événements</strong> archivés dans la catégorie <strong>'.$no_result_term->name.'</strong>, vous pouvez <a class="button button--inner-txt" href="'.$event_archive_permalink.'?eventtax='.get_query_var('eventtax').'">consulter les événements à venir</a>';
+	// pas d'événements passés
+	if ( get_query_var('eventpast') ) {
+		$no_result = 'Il n\'y a <strong>pas d\'événements passés</strong>, vous pouvez <a class="button button--inner-txt" href="'.$pc_post->permalink.'">consulter les événements à venir</a>.';
 
-	// rien d'archivé
-	} else if ( '' != get_query_var('eventarchive') && '' == get_query_var('eventtax') ) {
-		$no_result = 'Il n\'y a <strong>pas d\'événements</strong> archivés, vous pouvez <a class="button button--inner-txt" href="'.$event_archive_permalink.'">consulter les événements à venir</a>.';
-
-	// rien à venir dans la catégorie
-	} else if ( '' == get_query_var('eventarchive') && '' != get_query_var('eventtax') ) {
-		$no_result_term = get_term_by( 'ID', get_query_var('eventtax'), EVENTS_TAX_SLUG );
-		$no_result = 'Il n\'y a <strong>pas d\'événements</strong> à venir dans la catégorie <strong>'.$no_result_term->name.'</strong>, vous pouvez <a class="button button--inner-txt" href="'.$event_archive_permalink.'?eventarchive=1&eventtax='.get_query_var('eventtax').'">consulter les archives</a>.';
-
-	// rien à venir
+	// pas d'événéments à venir
 	} else {
-		$no_result = 'Il n\'y a <strong>pas d\'événements</strong> à venir, vous pouvez <a class="button button--inner-txt" href="'.$event_archive_permalink.'?eventarchive=1">consulter les archives</a>.';
+		$no_result = 'Il n\'y a <strong>pas d\'événements</strong> à venir, vous pouvez <a class="button button--inner-txt" href="'.$pc_post->permalink.'?eventpast=1">consulter les archives</a>.';
 
 	}
 
-	echo pc_display_alert_msg( $no_result, 'success' );
+	echo pc_display_alert_msg( $no_result, 'error' );
 
 }
  

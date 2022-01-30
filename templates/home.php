@@ -1,26 +1,45 @@
 <?php
 /**
  * 
- * [PC] Événements : template accueil du site
+ * [PC] Événements : template accueil
  * 
  */
 
 
-/*----------  Dernières actualités  ----------*/
+/*----------  Événements à venir  ----------*/
 
-add_action( 'pc_action_home_main_content', 'pc_events_display_home_last_events', 45 );
+add_action( 'pc_action_home_main_content', 'pc_events_display_home_last_events', 35 );
 
 	function pc_events_display_home_last_events( $pc_home ) {
 
 		$metas = $pc_home->metas;
+		$today = date('Y-m-d');
 
 		// liste
 		$home_events = get_posts(array(
 			'post_type' => EVENTS_POST_SLUG,
-			'posts_per_page' => 4
+			'posts_per_page' => 4,
+			'order' => 'ASC',
+			'orderby' => 'meta-value-date',
+			'meta_key' => 'event-date-start',
+			'meta_query' => array(
+				'relation' => 'OR',
+				array(
+					'key'     => 'event-date-start',
+					'value'   => $today,
+					'type'	  => 'DATE',
+					'compare' => '>=',
+				),
+				array(
+					'key'     => 'event-date-end',
+					'value'   => $today,
+					'type'	  => 'DATE',
+					'compare' => '>=',
+				)
+			)
 		));
 		// titre de la section
-		$title = ( isset($metas['content-events-title']) && $metas['content-events-title'] != '' ) ? $metas['content-events-title'] : 'Événements';
+		$title = ( isset($metas['content-events-title']) && $metas['content-events-title'] != '' ) ? $metas['content-events-title'] : 'Événements à venir';
 
 		// affichage des résumés de pages
 		if ( count($home_events) > 0 ) {

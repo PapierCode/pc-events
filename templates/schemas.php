@@ -15,17 +15,17 @@
 
 /*----------  Données structurées  ----------*/
 
-add_filter ( 'pc_filter_page_schema_article_display', 'pc_eventsedit_archive_schema', 10, 2 ); 
+add_filter ( 'pc_filter_page_schema_article_display', 'pc_events_edit_archive_schema', 10, 2 ); 
 
-	function pc_eventsedit_archive_schema( $display, $pc_post ) {
+	function pc_events_edit_archive_schema( $display, $pc_post ) {
 
 		$metas = $pc_post->metas;
 
 		if ( isset( $metas['content-from'] ) && EVENTS_POST_SLUG == $metas['content-from'] ) {
+			$display = false;
+		}
 
-			return false;
-
-		} else { return true; }
+		return $display;
 
 	}
 
@@ -45,13 +45,7 @@ add_filter( 'pc_filter_post_schema_article', 'pc_eventsedit_single_schema', 10, 
 			global $settings_project;
 
 			$metas = $pc_post->metas;
-			$image_to_share = $pc_post->get_seo_meta_image_datas();			
-			
-			$date_start = new DateTime( $metas['event-date-start'] );
-			$date_start->setTime( $metas['event-time-start-h'], $metas['event-time-start-m'] );
-
-			$date_end = new DateTime( $metas['event-date-end'] );
-			$date_end->setTime( $metas['event-time-end-h'], $metas['event-time-end-m'] );
+			$image_to_share = $pc_post->get_seo_meta_image_datas();	
 
 			$schema = array(
 				'@context' =>'http://schema.org',
@@ -66,8 +60,8 @@ add_filter( 'pc_filter_post_schema_article', 'pc_eventsedit_single_schema', 10, 
 					'width' 	=> $image_to_share[1],
 					'height' 	=> $image_to_share[2]
 				),
-				'startDate' => $date_start->format('c'),
-				'endDate' => $date_end->format('c'),
+				'startDate' => $metas['event-date-start'],
+				'endDate' => $metas['event-date-end'],
 				'eventStatus' => ( isset($metas['event-status-canceled'] ) ) ? 'EventCancelled' : 'EventScheduled',
 				'eventAttendanceMode' => ( isset($metas['event-status-online'] ) ) ? 'OnlineEventAttendanceMode' : 'OfflineEventAttendanceMode',
 				'location' => array(
@@ -89,7 +83,7 @@ add_filter( 'pc_filter_post_schema_article', 'pc_eventsedit_single_schema', 10, 
 					'availability' => 'LimitedAvailability',
 					'price' => ( isset( $metas['event-status-price'] ) ) ? $metas['event-status-price'] : 0,
 					'priceCurrency' => 'EUR',
-					'validFrom' => $date_start->format('c')
+					'validFrom' => $metas['event-date-start']
 				),
 				'organizer' => array(
 					'@type' => 'Organization',
@@ -122,7 +116,7 @@ add_filter( 'pc_filter_post_schema_article', 'pc_eventsedit_single_schema', 10, 
 
 		}
 
-		if ( isset($post_metas['content-from']) && $post_metas['content-from'][0] == EVENTS_POST_SLUG ) {
+		if ( isset( $post_metas['content-from'] ) && EVENTS_POST_SLUG == $post_metas['content-from'][0] ) {
 			// suppression schema article dans la liste d'actualités
 			$schema = array();
 		}
