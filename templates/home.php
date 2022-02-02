@@ -13,6 +13,7 @@ add_action( 'pc_action_home_main_content', 'pc_events_display_home_last_events',
 	function pc_events_display_home_last_events( $pc_home ) {
 
 		$metas = $pc_home->metas;
+		$archive_permalink = pc_get_page_by_custom_content( EVENTS_POST_SLUG );
 		$today = date('Y-m-d');
 
 		// liste
@@ -56,7 +57,7 @@ add_action( 'pc_action_home_main_content', 'pc_events_display_home_last_events',
 					$pc_post = new PC_Post( $post );
 
 					// affichage résumé
-					$pc_post->display_card( 3 );
+					$pc_post->display_card( 3, 'st-inner', array( 'archive_permalink' => $archive_permalink ) );
 					
 					// données structurée de la liste
 					add_filter( 'pc_filter_home_schema_collection_page', function( $schema_collection_page ) use( $pc_post ) {

@@ -18,7 +18,22 @@ add_action( 'pc_post_card_after_title', 'pc_events_display_card_date', 10 );
 function pc_events_display_card_date( $pc_post_card ) {
 
 	if ( EVENTS_POST_SLUG == $pc_post_card->type ) {
-		pc_event_display_date( $pc_post_card->metas, 'st-date' );		
+
+		$metas = $pc_post_card->metas;
+		
+		$date_start = new DateTime( $metas['event-date-start'] );
+		$date_end = new DateTime( $metas['event-date-end'] );
+		$css = 'st-date';
+
+		if ( $date_start->settime(0,0) == $date_end->settime(0,0) ) {
+
+			echo '<time class="'.$css.'" datetime="'.$date_start->format('c').'">Le <span>'.date_i18n( 'j F Y', strtotime($metas['event-date-start']) ).'</span></time>';
+
+		} else {
+
+			echo '<p class="'.$css.'">Du <time datetime="'.$date_start->format('c').'"><span>'.date_i18n( 'j F Y', strtotime($metas['event-date-start']) ).'</span></time> au <time datetime="'.$date_end->format('c').'"><span>'.date_i18n( 'j F Y', strtotime($metas['event-date-end']) ).'</span></time>';
+
+		}		
 
 	}
 
@@ -31,9 +46,9 @@ function pc_events_display_card_date( $pc_post_card ) {
 =            Catégories            =
 ==================================*/
 
-add_action( 'pc_post_card_before_end', 'pc_events_display_card_tax', 10 );
+add_action( 'pc_post_card_before_end', 'pc_events_display_card_tax', 10, 2 );
 
-function pc_events_display_card_tax( $pc_post_card ) {	
+function pc_events_display_card_tax( $pc_post_card, $params ) {	
 
 	if ( '' == get_query_var('eventpast') && EVENTS_POST_SLUG == $pc_post_card->type ) {	
 
@@ -54,8 +69,7 @@ function pc_events_display_card_tax( $pc_post_card ) {
 
 					switch ( $settings_pc['events-tax'] ) {
 						case 'filters':
-							global $pc_post;
-							$link_attrs['href'] = $pc_post->permalink.'?eventtax='.$term->term_id.$events_past_filter;
+							$link_attrs['href'] = $params['archive_permalink'].'?eventtax='.$term->term_id.$events_past_filter;
 							$link_attrs['rel'] = 'nofollow';
 							break;
 						case 'pages':

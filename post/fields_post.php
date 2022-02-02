@@ -75,6 +75,7 @@ $register_metabox_event_status = new PC_Add_Metabox( EVENTS_POST_SLUG, 'Informat
 
 $metabox_event_dates_fields = array(
 	'prefix'        => 'event-date',
+	'desc'			=> '<p><strong>Important : saisissez des valeurs cohérentes</strong>, étant donné qu\'une date de fin est obligatoire pour valider l\'événement par les moteurs de recherche, nous ne sommes pas en mesure d\'anticiper leur analyse si ces 2 valeurs sont strictement exactes (date et heure) ou séparées d\'une minute.</p><p><strong>Important : 0h00 représente le début d\'une journée</strong> et non "minuit".</p>',	
 	'fields'        => array(
 		array(
 			'type'      => 'datetime',
@@ -86,8 +87,15 @@ $metabox_event_dates_fields = array(
 			'type'      => 'datetime',
 			'label'     => 'Fin',
 			'id'        => 'end',
-			'attr'		=> 'data-after="event-date-dt-start"',
+			'attr'		=> 'data-after="event-date-start"',
 			'required'	=> true
+		),
+		array(
+			'type'      => 'text',
+			'label'     => 'Affichage',
+			'id'        => 'display',
+			'css'		=> 'width:100%',
+			'desc'		=> 'Vous pouvez remplacer l\'affichage des dates dans l\'article par ce texte libre. Pour autant les dates seront toujours la référence pour les moteurs de recherche.'
 		)
 	)
 );
@@ -104,7 +112,7 @@ $register_metabox_event_dates = new PC_Add_Metabox( EVENTS_POST_SLUG, 'Dates & h
 =            Lieu            =
 ============================*/
 
-// add_action( 'add_meta_boxes', 'pc_events_custom_metabox' );
+//add_action( 'add_meta_boxes', 'pc_events_custom_metabox' );
 
 	function pc_events_custom_metabox() {
 

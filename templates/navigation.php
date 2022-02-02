@@ -211,27 +211,29 @@ function pc_events_display_filters( $current_id = '', $archive_url = null ) {
 
 	// page par défaut des événements
 	if ( is_null( $archive_url ) ) { $archive_url = pc_get_page_by_custom_content( EVENTS_POST_SLUG ); }
-	// 
-	$toggle_css = 'event-toggle-archive button';
-	$toggle_ico = pc_svg('arrow');
+
+	$nav_css = 'event-filter';
+	$btn_past_css = 'event-filter-btn event-filter-btn--past button';
+	$btn_past_ico = pc_svg('arrow');
 
 	// si c'est une catégorie (filtre ou page)
 	if ( get_query_var( 'eventtax' ) || is_tax( EVENTS_TAX_SLUG ) )  {
-		$toggle_link = '<a href="'.$archive_url.'" class="'.$toggle_css.'" title="Tous les événements à venir"><span class="ico">'.$toggle_ico.'</span><span class="txt">Tous les événements</span></a>';
+		$btn_past_link = '<a href="'.$archive_url.'" class="'.$btn_past_css.'" title="Tous les événements à venir"><span class="ico">'.$btn_past_ico.'</span><span class="txt">Tous les événements</span></a>';
 
 	// si ce sont les événements passés
 	} else if ( get_query_var('eventpast') ) {
-		$toggle_link = '<a href="'.$archive_url.'" class="'.$toggle_css.'"><span class="ico">'.$toggle_ico.'</span><span class="txt">Événements à venir</span></a>';
+		$nav_css .= ' event-filter--past';
+		$btn_past_link = '<a href="'.$archive_url.'" class="'.$btn_past_css.'"><span class="ico">'.$btn_past_ico.'</span><span class="txt">Événements à venir</span></a>';
 
 	// si ce sont les événements à venir
 	} else {
-		$toggle_link = '<a href="'.$archive_url.'?eventpast=1" class="'.$toggle_css.'"><span class="ico">'.$toggle_ico.'</span><span class="txt">Événéments passés</span></a>';;
+		$btn_past_link = '<a href="'.$archive_url.'?eventpast=1" class="'.$btn_past_css.'"><span class="ico">'.$btn_past_ico.'</span><span class="txt">Événéments passés</span></a>';;
 	}
 
 
 	/*----------  Affichage  ----------*/	
 
-	echo '<nav role="navigation" aria-label="Catégories des événements" class="event-filter">';
+	echo '<nav role="navigation" aria-label="Catégories des événements" class="'.$nav_css.'">';
 
 	// si ce ne sont pas les événements archivés
 	// et si les catégories sont activées (filtre ou pages)
@@ -265,9 +267,7 @@ function pc_events_display_filters( $current_id = '', $archive_url = null ) {
 
 		if ( count( $terms ) >  0 ) {
 
-				echo '<button type="button" id="event-filter-btn" class="event-filter-btn button js-toggle" aria-controls="event-filter-list" aria-expanded="false" title="Afficher/masquer les catégories"><span class="ico">'.pc_svg('tag').'</span><span class="txt">Catégories</span></button>';
-
-				echo $toggle_link;
+				echo '<button type="button" id="event-filter-btn" class="event-filter-btn event-filter-btn--toggle button js-toggle" aria-controls="event-filter-list" aria-expanded="false" title="Afficher/masquer les catégories"><span class="ico">'.pc_svg('tag').'</span><span class="txt">Catégories</span></button>';
 
 				echo '<ul id="event-filter-list" class="event-filter-list reset-list" aria-hidden="true" aria-labelledby="event-filter-btn" style="display:none">';
 
@@ -302,11 +302,13 @@ function pc_events_display_filters( $current_id = '', $archive_url = null ) {
 
 				echo '</ul>';
 
+				echo $btn_past_link;
+
 		} // FIN if terms
 
 	} else { // FIN if settings tax
 
-		echo $toggle_link;
+		echo $btn_past_link;
 
 	} // FIN if ! settings tax
 

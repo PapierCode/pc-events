@@ -164,7 +164,7 @@ add_filter( 'pc_filter_page_wysiwyg_display', 'pc_events_archive_remove_page_wys
 
 	function pc_events_archive_remove_page_wysiwyg( $display ) {
 
-		if (  get_query_var('eventpast') || get_query_var('eventtax') || get_query_var( 'paged' ) >= 1 ) {
+		if ( is_page() && ( get_query_var('eventpast') || get_query_var('eventtax') || get_query_var( 'paged' ) >= 1 ) ) {
 			$display = false;
 		}
 

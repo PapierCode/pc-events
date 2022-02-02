@@ -36,9 +36,9 @@ add_filter ( 'pc_filter_page_schema_article_display', 'pc_events_edit_archive_sc
 =            Single            =
 ==============================*/
 
-add_filter( 'pc_filter_post_schema_article', 'pc_eventsedit_single_schema', 10, 2 );
+add_filter( 'pc_filter_post_schema_article', 'pc_events_edit_single_schema', 10, 2 );
 
-	function pc_eventsedit_single_schema( $schema, $pc_post ) {
+	function pc_events_edit_single_schema( $schema, $pc_post ) {
 
 		if ( EVENTS_POST_SLUG == $pc_post->type ) {
 

@@ -16,18 +16,17 @@ $events_page_number = ( get_query_var( 'paged' ) ) ? get_query_var( 'paged' ) : 
 =            Query            =
 =============================*/
 
-
 $events_archive_query_args = array(
     'post_type' => EVENTS_POST_SLUG,
     'posts_per_page' => get_option( 'posts_per_page' ),
     'paged' => $events_page_number,
 	'order' => 'ASC',
-	'orderby' => 'meta-value-date',
+	'orderby' => 'meta_value_date',
 	'meta_key' => 'event-date-start',
 );
 
 
-/*----------  À venir / archive  ----------*/
+/*----------  Passés / à venir  ----------*/
 
 if ( get_query_var('eventpast') ) {
 
@@ -121,7 +120,7 @@ if ( $events_archive_query->have_posts() ) {
 			$pc_post_card = new PC_Post( $events_archive_query->post );
 
 			// affichage résumé
-			$pc_post_card->display_card();
+			$pc_post_card->display_card( 2, 'st-inner', array( 'archive_permalink' => $pc_post->permalink ));
 			// données structurées
 			$events_archive_schema['mainEntity']['itemListElement'][] = $pc_post_card->get_schema_list_item( $events_list_item_key );
 			$events_list_item_key++;
@@ -162,7 +161,7 @@ if ( $events_archive_query->have_posts() ) {
 
 	// pas d'événéments à venir
 	} else {
-		$no_result = 'Il n\'y a <strong>pas d\'événements</strong> à venir, vous pouvez <a class="button button--inner-txt" href="'.$pc_post->permalink.'?eventpast=1">consulter les archives</a>.';
+		$no_result = 'Il n\'y a <strong>pas d\'événements</strong> à venir, vous pouvez <a class="button button--inner-txt" href="'.$pc_post->permalink.'?eventpast=1">consulter les événements passés</a>.';
 
 	}
 
