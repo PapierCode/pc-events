@@ -117,7 +117,7 @@ add_action( 'pc_action_page_main_content', 'pc_events_display_single_address', 3
 
 				echo '<div class="event-location-address">';
 				echo '<h2 class="event-location-title">Adresse</h2>';
-				echo '<address class="event-location-desc"><dl>';
+				echo '<address><dl class="event-location-desc">';
 					echo '<dt class="name">'.$metas['event-location-name'].'</dt>';
 					echo '<dd class="address">'.$metas['event-address'].' '.$metas['event-cp'].' '.$metas['event-city'].'</dd>';
 					echo '<dd class="link"><a href="https://www.google.com/maps/search/?api=1&query='.$metas['event-lat'].'%2C'.$metas['event-lng'].'" class="button" title="Google Map (nouvelle fenêtre)" target="_blank"><span class="ico">'.pc_svg('arrow').'</span><span class="txt">Itinéraire</span></a></dd>';
