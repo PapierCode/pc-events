@@ -138,6 +138,9 @@ function pc_events_metabox_location_content( $post ) {
 	$event_city = get_post_meta( $post->ID, 'event-city', true );
 	$event_lat = get_post_meta( $post->ID, 'event-lat', true );
 	$event_lng = get_post_meta( $post->ID, 'event-lng', true );
+	
+    // input hidden de vérification pour la sauvegarde
+	wp_nonce_field( basename( __FILE__ ), 'none-event-place-metaboxe' );
 
 	echo '<table class="form-table pc-address-to-gps"><tbody>';
     // nom
