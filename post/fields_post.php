@@ -112,7 +112,7 @@ $register_metabox_event_dates = new PC_Add_Metabox( EVENTS_POST_SLUG, 'Dates & h
 =            Lieu            =
 ============================*/
 
-//add_action( 'add_meta_boxes', 'pc_events_custom_metabox' );
+add_action( 'add_meta_boxes', 'pc_events_custom_metabox' );
 
 	function pc_events_custom_metabox() {
 
