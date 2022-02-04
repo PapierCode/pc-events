@@ -24,9 +24,11 @@ add_filter( 'query_vars', 'pc_events_query_vars' );
 	}
 	
 
-/*===================================
-=            Dépendances            =
-===================================*/
+/*=============================
+=            Admin            =
+=============================*/
+
+include 'pc-events_admin.php';
 
 add_action( 'admin_enqueue_scripts', 'pc_events_admin_enqueue_scripts' );
 
@@ -42,13 +44,11 @@ add_action( 'admin_enqueue_scripts', 'pc_events_admin_enqueue_scripts' );
 	};
 
 
-/*=====  FIN Dépendances  =====*/
+/*=====  FIN Admin  =====*/
 
 /*================================
 =            Includes            =
 ================================*/
-
-include 'admin.php';
 
 add_action( 'plugins_loaded', 'pc_events_setup' );
 
@@ -57,7 +57,7 @@ add_action( 'plugins_loaded', 'pc_events_setup' );
 		include 'post/register.php';
 		include 'post/fields_post.php';
 		include 'post/fields_taxonomy.php';
-		include 'templates.php';
+		include 'pc-events_templates.php';
 
 	}
 
