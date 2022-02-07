@@ -56,6 +56,7 @@ function pc_events_edit_single_html_css_class( $css_classes ) {
 	if ( is_singular( EVENTS_POST_SLUG ) ) {
 		$css_classes[] = 'is-page';
 		$css_classes[] = 'is-event';
+		$css_classes[] = 'has-map';
 	}
 
 	if ( is_tax( EVENTS_TAX_SLUG ) ) {

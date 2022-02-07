@@ -111,20 +111,20 @@ add_action( 'pc_action_page_main_content', 'pc_events_display_single_address', 3
 			
 			$metas = $pc_post->metas;
 
-			echo '<div class="event-location">';
+			echo '<div class="location location--event">';
 			
-				echo '<div class="event-location-ico">'.pc_svg('map').'</div>';
+				echo '<div class="location-ico">'.pc_svg('map').'</div>';
 
-				echo '<div class="event-location-address">';
-				echo '<h2 class="event-location-title">Adresse</h2>';
-				echo '<address><dl class="event-location-desc">';
-					echo '<dt class="name">'.$metas['event-location-name'].'</dt>';
-					echo '<dd class="address">'.$metas['event-address'].' '.$metas['event-cp'].' '.$metas['event-city'].'</dd>';
-					echo '<dd class="link"><a href="https://www.google.com/maps/search/?api=1&query='.$metas['event-lat'].'%2C'.$metas['event-lng'].'" class="button" title="Google Map (nouvelle fenêtre)" target="_blank"><span class="ico">'.pc_svg('arrow').'</span><span class="txt">Itinéraire</span></a></dd>';
+				echo '<div class="location-address">';
+				echo '<h2 class="location-title">Adresse</h2>';
+				echo '<address><dl class="location-desc">';
+					echo '<dt class="location-name">'.$metas['event-location-name'].'</dt>';
+					echo '<dd class="location-address">'.$metas['event-address'].' '.$metas['event-cp'].' '.$metas['event-city'].'</dd>';
+					echo '<dd class="location-link"><a href="https://www.google.com/maps/search/?api=1&query='.$metas['event-lat'].'%2C'.$metas['event-lng'].'" class="button" title="Google Map (nouvelle fenêtre)" target="_blank"><span class="ico">'.pc_svg('arrow').'</span><span class="txt">Itinéraire</span></a></dd>';
 				echo '</dl></address>';
 				echo '</div>';
 
-				echo '<div class="event-location-map" id="event-map" data-lat="'.$metas['event-lat'].'" data-lng="'.$metas['event-lng'].'" aria-hidden="true"></div>';
+				echo '<div class="location-map" id="map" data-lat="'.$metas['event-lat'].'" data-lng="'.$metas['event-lng'].'" aria-hidden="true"></div>';
 				
 			echo '</div>';
 
