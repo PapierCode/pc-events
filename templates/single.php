@@ -56,7 +56,7 @@ add_action( 'pc_action_page_main_content', 'pc_events_display_single_date', 25 )
 			$date_end = new DateTime( $metas['event-date-end'] );
 			$unix_end = $date_end->format('U');
 		
-			$css = 'event-date';
+			$css = 'single-date single-date--event';
 			if ( isset( $metas['event-date-display'] ) ) {
 				echo '<p class="'.$css.'">'.$metas['event-date-display'].'</p>';
 				echo '<p class="visually-hidden" aria-hidden="true">';
@@ -100,7 +100,6 @@ add_action( 'pc_action_page_main_content', 'pc_events_display_single_date', 25 )
 	}
 
 
-
 /*----------  Adresse & map  ----------*/
 
 add_action( 'pc_action_page_main_content', 'pc_events_display_single_address', 35 );
@@ -109,8 +108,8 @@ add_action( 'pc_action_page_main_content', 'pc_events_display_single_address', 3
 
 		if ( is_singular( EVENTS_POST_SLUG ) ) {
 			
-			$metas = $pc_post->metas;
-
+			$metas = $pc_post->metas;		
+			
 			echo '<div class="location location--event">';
 			
 				echo '<div class="location-ico">'.pc_svg('map').'</div>';
@@ -128,6 +127,65 @@ add_action( 'pc_action_page_main_content', 'pc_events_display_single_address', 3
 				
 			echo '</div>';
 
+		}
+
+	}
+
+
+/*----------  Catégories  ----------*/
+
+add_action( 'pc_action_page_main_content', 'pc_events_display_single_categories', 35 );
+
+	function pc_events_display_single_categories( $pc_post ) {
+			
+		global $settings_pc;
+
+		if ( is_singular( EVENTS_POST_SLUG ) && in_array( $settings_pc['events-tax'], array( 'filters', 'pages' ) ) ) {	
+		
+			$terms = wp_get_post_terms( $pc_post->id, EVENTS_TAX_SLUG );
+	
+			if ( is_array( $terms ) && !empty( $terms ) ) {
+	
+				echo '<p class="single-tax single-categories--event">';
+
+					echo '<span class="single-tax-ico">'.pc_svg('tag').'</span>';
+
+					echo '<span class="single-tax-txt">';
+
+						echo '<span class="single-tax-label">Catégories : </span>';
+		
+						foreach ( $terms as $key => $term ) {
+		
+							$link_attrs = array(
+								'title' => 'Catégorie '.$term->name,
+								'class' => 'single-tax-link'
+							);
+		
+							switch ( $settings_pc['events-tax'] ) {
+								case 'filters':
+									$link_attrs['href'] = pc_get_page_by_custom_content( EVENTS_POST_SLUG ).'?eventtax='.$term->term_id;
+									$link_attrs['rel'] = 'nofollow';
+									break;
+								case 'pages':
+									$link_attrs['href'] = get_term_link( $term->term_id );
+									break;
+							}
+		
+							if ( $key > 0 ) { echo ', '; }
+		
+							$link_attrs_str = '';
+							foreach ( $link_attrs as $name => $values ) {
+								$link_attrs_str .= ' '.$name.'="'.$values.'"';
+							}
+							echo '<a'.$link_attrs_str.'>'.$term->name.'</a>';
+		
+						}
+		
+					echo '</span>';
+				echo '.</p>';
+	
+			}
+			
 		}
 
 	}

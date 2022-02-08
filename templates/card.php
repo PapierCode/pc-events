@@ -15,11 +15,11 @@
 
 add_action( 'pc_post_card_after_title', 'pc_events_display_card_date', 10 );
 
-function pc_events_display_card_date( $pc_post_card ) {
+function pc_events_display_card_date( $pc_post ) {
 
-	if ( EVENTS_POST_SLUG == $pc_post_card->type ) {
+	if ( EVENTS_POST_SLUG == $pc_post->type ) {
 
-		$metas = $pc_post_card->metas;
+		$metas = $pc_post->metas;
 		
 		$date_start = new DateTime( $metas['event-date-start'] );
 		$date_end = new DateTime( $metas['event-date-end'] );
@@ -48,15 +48,15 @@ function pc_events_display_card_date( $pc_post_card ) {
 
 add_action( 'pc_post_card_before_end', 'pc_events_display_card_tax', 10, 2 );
 
-function pc_events_display_card_tax( $pc_post_card, $params ) {	
+function pc_events_display_card_tax( $pc_post, $params ) {	
+	
+	global $settings_pc;
 
-	if ( '' == get_query_var('eventpast') && EVENTS_POST_SLUG == $pc_post_card->type ) {	
+	if ( EVENTS_POST_SLUG == $pc_post->type && !get_query_var('eventpast') && in_array( $settings_pc['events-tax'], array( 'filters', 'pages' ) ) ) {	
 
-		$terms = wp_get_post_terms( $pc_post_card->id, EVENTS_TAX_SLUG );
+		$terms = wp_get_post_terms( $pc_post->id, EVENTS_TAX_SLUG );
 
 		if ( is_array( $terms ) && !empty( $terms ) ) {
-
-			global $settings_pc;
 
 			echo '<p class="st-tax">'.pc_svg('tag');
 
@@ -65,15 +65,14 @@ function pc_events_display_card_tax( $pc_post_card, $params ) {
 					$link_attrs = array(
 						'title' => 'Catégorie '.$term->name
 					);
-					$events_past_filter = ( isset( $_GET['eventpast'] ) ) ? '&eventpast=1' : '' ;
 
 					switch ( $settings_pc['events-tax'] ) {
 						case 'filters':
-							$link_attrs['href'] = $params['archive_permalink'].'?eventtax='.$term->term_id.$events_past_filter;
+							$link_attrs['href'] = $params['archive_permalink'].'?eventtax='.$term->term_id;
 							$link_attrs['rel'] = 'nofollow';
 							break;
 						case 'pages':
-							$link_attrs['href'] = get_term_link( $term->term_id ).$events_past_filter;
+							$link_attrs['href'] = get_term_link( $term->term_id );
 							break;
 					}
 
@@ -104,9 +103,9 @@ function pc_events_display_card_tax( $pc_post_card, $params ) {
 
 add_filter( 'pc_filter_card_link_params', 'pc_events_edit_card_link_params', 10, 2 );
 
-	function pc_events_edit_card_link_params( $params, $pc_post_card ) {
+	function pc_events_edit_card_link_params( $params, $pc_post ) {
 
-		if ( EVENTS_POST_SLUG == $pc_post_card->type && get_query_var('paged') ) {
+		if ( EVENTS_POST_SLUG == $pc_post->type && get_query_var('paged') ) {
 			$params['eventpaged'] = get_query_var('paged');
 		} 
 		if ( is_tax( EVENTS_TAX_SLUG ) ) {
