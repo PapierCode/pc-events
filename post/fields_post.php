@@ -78,13 +78,13 @@ $metabox_event_dates_fields = array(
 	'desc'			=> '<p><strong>Important : saisissez des valeurs cohérentes</strong>, étant donné qu\'une date de fin est obligatoire pour valider l\'événement par les moteurs de recherche, nous ne sommes pas en mesure d\'anticiper leur analyse si ces 2 valeurs sont strictement exactes (date et heure) ou séparées d\'une minute.</p><p><strong>Important : 0h00 représente le début d\'une journée</strong> et non "minuit".</p>',	
 	'fields'        => array(
 		array(
-			'type'      => 'datetime',
+			'type'      => 'datetime-local',
 			'label'     => 'Début',
 			'id'        => 'start',
 			'required'	=> true
 		),
 		array(
-			'type'      => 'datetime',
+			'type'      => 'datetime-local',
 			'label'     => 'Fin',
 			'id'        => 'end',
 			'attr'		=> 'data-after="event-date-start"',
