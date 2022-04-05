@@ -38,15 +38,23 @@ function pc_events_filter_post_link( $link, $post ) {
 =            Contenu            =
 ===============================*/
 
-/*----------  Date  ----------*/
+/*----------  Annulation & date  ----------*/
 
-add_action( 'pc_action_page_main_content', 'pc_events_display_single_date', 25 );
+add_action( 'pc_action_page_main_content', 'pc_events_display_single_after_title', 25 );
 
-	function pc_events_display_single_date( $pc_post ) {
+	function pc_events_display_single_after_title( $pc_post ) {
 
 		if ( is_singular( EVENTS_POST_SLUG ) ) {
 
 			$metas = $pc_post->metas;
+
+			if ( isset( $metas['event-infos-canceled'] ) ) {
+				echo pc_display_alert_msg(
+					apply_filters( 'pc_filter_event_single_canceled_text', '<strong>Événement annulé</strong>', $pc_post ),
+					'error',
+					'block'
+				);
+			}	
 
 			$iso_start = $metas['event-date-start'];
 			$date_start = new DateTime( $metas['event-date-start'] );

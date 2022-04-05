@@ -3,12 +3,39 @@
  * 
  * [PC] Événements : template résumé
  * 
+ ** Annulation
  ** Date
  ** Catégories
  ** Lien
  * 
  */
  
+
+/*==================================
+=            Annulation            =
+==================================*/
+
+add_action( 'pc_post_card_after_start', 'pc_events_display_cancel_label', 10 );
+
+	function pc_events_display_cancel_label( $pc_post ) {
+
+		if ( EVENTS_POST_SLUG == $pc_post->type ) {
+
+			$metas = $pc_post->metas;
+
+			if ( isset( $metas['event-infos-canceled'] ) ) {
+				echo '<p class="st-label st-label--canceled">';
+					echo apply_filters( 'pc_filter_event_card_canceled_text', '<strong>Annulé</strong>', $pc_post );
+				echo '</p>';
+			}
+
+		}
+
+	}
+
+
+/*=====  FIN Annulation  =====*/
+
 /*============================
 =            Date            =
 ============================*/
@@ -20,7 +47,6 @@ function pc_events_display_card_date( $pc_post ) {
 	if ( EVENTS_POST_SLUG == $pc_post->type ) {
 
 		$metas = $pc_post->metas;
-		
 		$date_start = new DateTime( $metas['event-date-start'] );
 		$date_end = new DateTime( $metas['event-date-end'] );
 		$css = 'st-date';
