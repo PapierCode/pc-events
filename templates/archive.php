@@ -157,11 +157,11 @@ if ( $events_archive_query->have_posts() ) {
 	
 	// pas d'événements passés
 	if ( get_query_var('eventpast') ) {
-		$no_result = 'Il n\'y a <strong>pas d\'événements passés</strong>, vous pouvez <a class="button button--inner-txt" href="'.$pc_post->permalink.'">consulter les événements à venir</a>.';
+		$no_result = 'Il n\'y a <strong>pas d\'événements passés</strong>, vous pouvez <a class="button button--inline" href="'.$pc_post->permalink.'">consulter les événements à venir</a>.';
 
 	// pas d'événéments à venir
 	} else {
-		$no_result = 'Il n\'y a <strong>pas d\'événements</strong> à venir, vous pouvez <a class="button button--inner-txt" href="'.$pc_post->permalink.'?eventpast=1">consulter les événements passés</a>.';
+		$no_result = 'Il n\'y a <strong>pas d\'événements</strong> à venir, vous pouvez <a class="button button--inline" href="'.$pc_post->permalink.'?eventpast=1">consulter les événements passés</a>.';
 
 	}
 

@@ -4,7 +4,7 @@
 Plugin Name: [PC] Events
 Plugin URI: www.papier-code.fr
 Description: Actualités
-Version: 1.0.2
+Version: 1.0.3
 Author: Papier Codé
 */
 
