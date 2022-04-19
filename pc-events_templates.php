@@ -89,16 +89,18 @@ add_filter( 'pc_filter_seo_metas', 'pc_events_filter_seo_metas' );
 				$term = get_term( get_query_var( 'eventtax' ) );
 				$metas['title'] = 'Événements &quot;'.$term->name.'&quot;';
 			}
-
-			// pagination
-			if ( get_query_var( 'paged' ) ) {
-				$metas['title'] .= ' - Page '.get_query_var( 'paged' );	
-			}
 	
 			// Nom du projet
 			if ( get_query_var('eventpast') || get_query_var( 'eventtax' ) ) {
+
+				// pagination
+				if ( get_query_var( 'paged' ) ) {
+					$metas['title'] .= ' - Page '.get_query_var( 'paged' );	
+				}
+
 				global $settings_project;
 				$metas['title'] .= ' - '.$settings_project['coord-name'];
+				
 			}
 
 		} else if ( is_tax( EVENTS_TAX_SLUG ) && get_query_var( 'paged' ) ) {
