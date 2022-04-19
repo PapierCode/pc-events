@@ -143,7 +143,6 @@ add_filter( 'pc_filter_breadcrumb', 'pc_events_edit_breadcrumb' );
 	
 			}
 			
-		
 		}
 
 		return $links;
