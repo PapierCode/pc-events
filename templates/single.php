@@ -68,12 +68,12 @@ add_action( 'pc_action_page_main_content', 'pc_events_display_single_after_title
 
 			echo '<p class="'.$css.'">';
 			echo '<span class="ico">'.pc_svg('calendar').'</span>';
-			echo '<span  class="txt">';
+			echo '<span class="txt">';
 
 			if ( isset( $metas['event-date-display'] ) ) {
 
 				// texte libre
-				echo $metas['event-date-display'];
+				echo '<span class="custom-time">'.$metas['event-date-display'].'</span>';
 
 			} else {		
 		
@@ -81,8 +81,6 @@ add_action( 'pc_action_page_main_content', 'pc_events_display_single_after_title
 				
 				// même jour
 				if ( (clone $date_start)->settime(0,0) == (clone $date_end)->settime(0,0) ) {
-
-					echo '<span class="visually-hidden">Date : </span>';
 		
 					// même heure
 					if ( $unix_start == $unix_end ) { 
@@ -100,7 +98,6 @@ add_action( 'pc_action_page_main_content', 'pc_events_display_single_after_title
 			
 				} else {
 			
-					echo '<span class="visually-hidden">Dates : </span>';
 					echo 'Du <time datetime="'.$iso_start.'">'.date_i18n( 'j F Y \à G\hi', $unix_start).'</time> au <time datetime="'.$iso_end.'">'.date_i18n( 'j F Y \à G\hi', $unix_end ).'</time>';
 			
 				}
