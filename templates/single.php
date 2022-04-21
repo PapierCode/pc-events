@@ -65,43 +65,46 @@ add_action( 'pc_action_page_main_content', 'pc_events_display_single_after_title
 			$unix_end = $date_end->format('U');
 		
 			$css = 'single-date single-date--event';
-			if ( isset( $metas['event-date-display'] ) ) {
-				echo '<p class="'.$css.'">'.$metas['event-date-display'].'</p>';
-				echo '<p class="visually-hidden" aria-hidden="true">';
-			} else {
-				echo '<p class="'.$css.'">';
-			}
 
+			echo '<p class="'.$css.'">';
 			echo '<span class="ico">'.pc_svg('calendar').'</span>';
 			echo '<span  class="txt">';
-		
-		
-			/*----------  Dates identiques  ----------*/
-			
-			// même jour
-			if ( (clone $date_start)->settime(0,0) == (clone $date_end)->settime(0,0) ) {
 
-				echo '<span class="label">Date : </span>';
-	
-				// même heure
-				if ( $unix_start == $unix_end ) { 
-					echo '<time datetime="'.$iso_start.'">'.date_i18n( 'j F Y \à G\hi', $unix_start).'</time>';
+			if ( isset( $metas['event-date-display'] ) ) {
+
+				// texte libre
+				echo $metas['event-date-display'];
+
+			} else {		
+		
+				/*----------  Dates identiques  ----------*/
 				
-				// heure différente
+				// même jour
+				if ( (clone $date_start)->settime(0,0) == (clone $date_end)->settime(0,0) ) {
+
+					echo '<span class="visually-hidden">Date : </span>';
+		
+					// même heure
+					if ( $unix_start == $unix_end ) { 
+						echo '<time datetime="'.$iso_start.'">'.date_i18n( 'j F Y \à G\hi', $unix_start).'</time>';
+					
+					// heure différente
+					} else {
+						echo '<time datetime="'.$date_start->format('Y-m-d').'">'.date_i18n( 'j F Y', $unix_start).'</time>';
+						echo ' de <time datetime="'.$date_start->format('H:i').'">'.$date_start->format('G\hi').'</time>';
+						echo ' à <time datetime="'.$date_end->format('H:i').'">'.$date_end->format('G\hi').'</time>';
+					}
+			
+			
+				/*----------  Dates différentes  ----------*/		
+			
 				} else {
-					echo '<time datetime="'.$date_start->format('Y-m-d').'">'.date_i18n( 'j F Y', $unix_start).'</time>';
-					echo ' de <time datetime="'.$date_start->format('H:i').'">'.$date_start->format('G\hi').'</time>';
-					echo ' à <time datetime="'.$date_end->format('H:i').'">'.$date_end->format('G\hi').'</time>';
+			
+					echo '<span class="visually-hidden">Dates : </span>';
+					echo 'Du <time datetime="'.$iso_start.'">'.date_i18n( 'j F Y \à G\hi', $unix_start).'</time> au <time datetime="'.$iso_end.'">'.date_i18n( 'j F Y \à G\hi', $unix_end ).'</time>';
+			
 				}
-		
-		
-			/*----------  Dates différentes  ----------*/		
-		
-			} else {
-		
-				echo '<span class="label">Dates : </span>';
-				echo 'Du <time datetime="'.$iso_start.'">'.date_i18n( 'j F Y \à G\hi', $unix_start).'</time> au <time datetime="'.$iso_end.'">'.date_i18n( 'j F Y \à G\hi', $unix_end ).'</time>';
-		
+					
 			}
 		
 			echo '</span></p>';
