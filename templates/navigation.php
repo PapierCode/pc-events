@@ -301,15 +301,11 @@ function pc_events_display_filters( $current_id = '', $archive_url = null ) {
 
 				echo '</ul>';
 
-				echo $btn_past_link;
-
 		} // FIN if terms
 
-	} else { // FIN if settings tax
+	} // FIN if settings tax
 
-		echo $btn_past_link;
-
-	} // FIN if ! settings tax
+	echo $btn_past_link;
 
 	echo '</nav>';
 

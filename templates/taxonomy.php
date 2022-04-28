@@ -32,48 +32,61 @@ pc_display_main_start();
 			echo pc_wp_wysiwyg( $metas['content-desc'] );
 		}
 
-		pc_events_display_filters( $pc_term->id );
+		if ( have_posts() ) { 
 
-		// données structurées
-		$term_schema = array(
-			'@context' => 'http://schema.org/',
-			'@type'=> 'CollectionPage',
-			'name' => $pc_term->get_seo_meta_title(),
-			'headline' => $pc_term->get_seo_meta_title(),
-			'description' => $pc_term->get_seo_meta_description(),
-			'mainEntity' => array(
-				'@type' => 'ItemList',
-				'itemListElement' => array()
-			),
-			'isPartOf' => pc_get_schema_website()
-		);
-		// compteur position itemListElement
-		$events_list_item_key = 1;
+			pc_events_display_filters( $pc_term->id );
+			
+			while ( have_posts() ) { 
+				
+				the_post();
 
-		echo '<ul class="st-list st-list--events reset-list">';	
-
-		if ( have_posts() ) : while ( have_posts() ) : the_post(); // Boucle WP (1/2)
-
-			// début d'élément
-			echo '<li class="st st--event">';
-		
-				$event_post = new PC_Post( $post );
-
-				// affichage résumé
-				$event_post->display_card();
 				// données structurées
-				$events_schema['mainEntity']['itemListElement'][] = $event_post->get_schema_list_item( $events_list_item_key );
-				$events_list_item_key++;
+				$term_schema = array(
+					'@context' => 'http://schema.org/',
+					'@type'=> 'CollectionPage',
+					'name' => $pc_term->get_seo_meta_title(),
+					'headline' => $pc_term->get_seo_meta_title(),
+					'description' => $pc_term->get_seo_meta_description(),
+					'mainEntity' => array(
+						'@type' => 'ItemList',
+						'itemListElement' => array()
+					),
+					'isPartOf' => pc_get_schema_website()
+				);
+				// compteur position itemListElement
+				$events_list_item_key = 1;
+		
+				echo '<ul class="st-list st-list--events reset-list">';	
 
-			// fin d'élément
-			echo '</li>';
+					// début d'élément
+					echo '<li class="st st--event">';
+				
+						$event_post = new PC_Post( $post );
 
-		endwhile; endif; // Boucle WP (2/2)
+						// affichage résumé
+						$event_post->display_card();
+						// données structurées
+						$events_schema['mainEntity']['itemListElement'][] = $event_post->get_schema_list_item( $events_list_item_key );
+						$events_list_item_key++;
 
-		echo '</ul>';
+					// fin d'élément
+					echo '</li>';
 
-		// affichage données structurées
-		echo '<script type="application/ld+json">'.json_encode($term_schema,JSON_UNESCAPED_SLASHES).'</script>';
+				echo '</ul>';
+		
+				// affichage données structurées
+				echo '<script type="application/ld+json">'.json_encode($term_schema,JSON_UNESCAPED_SLASHES).'</script>';
+
+			}
+
+		} else {
+
+			$no_result = 'Il n\'y a <strong>pas d\'événements à venir dans cette catégorie</strong>.';
+			echo pc_display_alert_msg( $no_result, 'error' );
+
+			pc_events_display_filters( $pc_term->id );
+
+		} // FIN have_post()
 
 	pc_display_main_content_end();
 
