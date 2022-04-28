@@ -184,7 +184,9 @@ add_filter( 'pc_filter_breadcrumb_before_display', 'pc_events_edit_breadcrumb_be
 					$link,
 					array_slice( $links, 2)
 				);
-				$links[array_key_last($links)]['permalink'] .= '?eventtax='.get_query_var( 'eventtax' );
+				if ( get_query_var( 'eventtax' ) ) {
+					$links[array_key_last($links)]['permalink'] .= '?eventtax='.get_query_var( 'eventtax' );
+				}
 			} else {
 				$links[] = $link[0];
 			}
