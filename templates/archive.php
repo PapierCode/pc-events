@@ -7,7 +7,7 @@
 
  
 global $settings_pc, $pc_post, $events_archive_query, $events_page_number;
-$today = date('Y-m-d');
+$today = date('Y-m-d\TH:i');
 
 // page en cours (pager)
 $events_page_number = ( get_query_var( 'paged' ) ) ? get_query_var( 'paged' ) : 1;
@@ -20,9 +20,9 @@ $events_archive_query_args = array(
     'post_type' => EVENTS_POST_SLUG,
     'posts_per_page' => get_option( 'posts_per_page' ),
     'paged' => $events_page_number,
-	'order' => 'ASC',
-	'orderby' => 'meta_value_date',
+	'orderby' => 'meta_value',
 	'meta_key' => 'event-date-start',
+	'meta_type' => 'DATETIME'
 );
 
 
@@ -31,11 +31,12 @@ $events_archive_query_args = array(
 if ( get_query_var('eventpast') ) {
 
 	// événements passés
+	$events_archive_query_args['order'] = 'DESC';
 	$events_archive_query_args['meta_query'] = array(
 		array(
 			'key'     => 'event-date-end',
 			'value'   => $today,
-			'type'	  => 'DATE',
+			'type'	  => 'DATETIME',
 			'compare' => '<',
 		)
 	);
@@ -43,23 +44,18 @@ if ( get_query_var('eventpast') ) {
 } else {
 
 	// événements à venir
+	$events_archive_query_args['order'] = 'ASC';
 	$events_archive_query_args['meta_query'] = array(
-		'relation' => 'OR',
-		array(
-			'key'     => 'event-date-start',
-			'value'   => $today,
-			'type'	  => 'DATE',
-			'compare' => '>=',
-		),
 		array(
 			'key'     => 'event-date-end',
 			'value'   => $today,
-			'type'	  => 'DATE',
+			'type'	  => 'DATETIME',
 			'compare' => '>=',
 		)
 	);
 
 }
+
 
 /*----------  Taxonomie (filtre)  ----------*/
 
@@ -74,7 +70,6 @@ if ( 'filters' == $settings_pc['events-tax'] && get_query_var('eventtax') ) {
     );
 
 }
-
 
 /*=====  FIN Query  =====*/
 
