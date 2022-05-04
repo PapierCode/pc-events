@@ -14,7 +14,6 @@ add_action( 'pc_action_home_main_content', 'pc_events_display_home_last_events',
 
 		$metas = $pc_home->metas;
 		$archive_permalink = pc_get_page_by_custom_content( EVENTS_POST_SLUG );
-		$today = date('Y-m-d');
 
 		// liste
 		$home_events = get_posts(array(
@@ -23,10 +22,11 @@ add_action( 'pc_action_home_main_content', 'pc_events_display_home_last_events',
 			'orderby' => 'meta_value',
 			'meta_key' => 'event-date-start',
 			'meta_type' => 'DATETIME',
+			'order' => 'ASC',
 			'meta_query' => array(
 				array(
 					'key'     => 'event-date-end',
-					'value'   => $today,
+					'value'   => date('Y-m-d\TH:i'),
 					'type'	  => 'DATETIME',
 					'compare' => '>=',
 				)
