@@ -20,21 +20,14 @@ add_action( 'pc_action_home_main_content', 'pc_events_display_home_last_events',
 		$home_events = get_posts(array(
 			'post_type' => EVENTS_POST_SLUG,
 			'posts_per_page' => 4,
-			'order' => 'ASC',
-			'orderby' => 'meta-value-date',
+			'orderby' => 'meta_value',
 			'meta_key' => 'event-date-start',
+			'meta_type' => 'DATETIME',
 			'meta_query' => array(
-				'relation' => 'OR',
-				array(
-					'key'     => 'event-date-start',
-					'value'   => $today,
-					'type'	  => 'DATE',
-					'compare' => '>=',
-				),
 				array(
 					'key'     => 'event-date-end',
 					'value'   => $today,
-					'type'	  => 'DATE',
+					'type'	  => 'DATETIME',
 					'compare' => '>=',
 				)
 			)
