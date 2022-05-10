@@ -112,6 +112,13 @@ add_filter( 'pc_filter_post_schema_article', 'pc_events_edit_single_schema', 10,
 					);
 				}
 				
+			} else {
+
+				$schema['performer'] = array(
+					'@type' => 'Organization',
+					'name' => $settings_project['coord-name']
+				);
+
 			}
 
 		}
