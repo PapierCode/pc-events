@@ -40,7 +40,7 @@ if ( class_exists( 'PC_Add_Custom_Post' ) ) {
 		'has_archive'		=> false
 	));
 
-	if ( class_exists( 'Classic_Editor' ) ) { unset( $news_post_args['show_in_rest'] ); }
+	if ( class_exists( 'Classic_Editor' ) ) { unset( $events_post_args['show_in_rest'] ); }
 
 
 	/*----------  Déclaration  ----------*/

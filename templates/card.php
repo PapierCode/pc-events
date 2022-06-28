@@ -25,7 +25,7 @@ add_action( 'pc_post_card_after_start', 'pc_events_display_cancel_label', 10 );
 
 			if ( isset( $metas['event-infos-canceled'] ) ) {
 				echo '<p class="st-label st-label--canceled">';
-					echo apply_filters( 'pc_filter_event_card_canceled_text', '<strong>Annulé</strong>', $pc_post );
+					echo apply_filters( 'pc_filter_event_card_canceled_text', 'Annulé', $pc_post );
 				echo '</p>';
 			}
 
