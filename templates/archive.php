@@ -83,7 +83,9 @@ if ( $events_archive_query->have_posts() ) {
 
 	/*----------  Filtres  ----------*/
 	
-	pc_events_display_filters( sanitize_key( get_query_var('eventtax'), $pc_post->permalink ), $pc_post->permalink );
+	if ( in_array( $settings_pc['events-tax'], array( 'filters', 'pages' ) ) ) {
+		pc_events_display_filters( sanitize_key( get_query_var('eventtax'), $pc_post->permalink ), $pc_post->permalink );
+	}
 
 
 	/*----------  Liste  ----------*/
@@ -129,6 +131,13 @@ if ( $events_archive_query->have_posts() ) {
 
 	// affichage données structurées
 	echo '<script type="application/ld+json">'.json_encode($events_archive_schema,JSON_UNESCAPED_SLASHES).'</script>';
+
+
+	/*----------  Filtres  ----------*/
+	
+	if ( 'none' == $settings_pc['events-tax'] ) {
+		pc_events_display_filters();
+	}
 	
 
 	/*----------  Pagination  ----------*/

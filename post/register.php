@@ -86,7 +86,8 @@ if ( class_exists( 'PC_Add_Custom_Post' ) ) {
 			'show_in_nav_menus' => false,
 			'publicly_queryable' => ( 'filters' == $settings_pc['events-tax'] ) ? false : true,
 			'hierarchical' => false,
-			'meta_box_cb' => 'post_categories_meta_box'
+			'meta_box_cb' => 'post_categories_meta_box',
+			'show_in_rest' => ( !isset( $settings_pc['blockeditor-disabled'] ) ) ? true : false
 		));
 
 

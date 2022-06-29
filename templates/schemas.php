@@ -15,7 +15,7 @@
 
 /*----------  Données structurées  ----------*/
 
-add_filter ( 'pc_filter_page_schema_article_display', 'pc_events_edit_archive_schema', 10, 2 ); 
+add_filter( 'pc_filter_page_schema_article_display', 'pc_events_edit_archive_schema', 10, 2 ); 
 
 	function pc_events_edit_archive_schema( $display, $pc_post ) {
 
@@ -121,11 +121,6 @@ add_filter( 'pc_filter_post_schema_article', 'pc_events_edit_single_schema', 10,
 
 			}
 
-		}
-
-		if ( isset( $post_metas['content-from'] ) && EVENTS_POST_SLUG == $post_metas['content-from'][0] ) {
-			// suppression schema article dans la liste d'actualités
-			$schema = array();
 		}
 
 		return $schema;
