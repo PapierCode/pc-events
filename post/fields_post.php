@@ -64,6 +64,8 @@ $metabox_event_status_fields = array(
 	)
 );
 
+$metabox_event_status_fields = apply_filters( 'pc_filter_metabox_event_status_fields', $metabox_event_status_fields );
+
 $register_metabox_event_status = new PC_Add_Metabox( EVENTS_POST_SLUG, 'Informations générales', 'page-metabox-event-infos', $metabox_event_status_fields, 'normal', 'high' );
 
 
@@ -99,6 +101,8 @@ $metabox_event_dates_fields = array(
 		)
 	)
 );
+
+$metabox_event_dates_fields = apply_filters( 'pc_filter_metabox_event_dates_fields', $metabox_event_dates_fields );
 
 $register_metabox_event_dates = new PC_Add_Metabox( EVENTS_POST_SLUG, 'Dates & horaires', 'page-metabox-event-dates', $metabox_event_dates_fields, 'normal', 'high' );
 

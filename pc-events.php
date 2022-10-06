@@ -4,7 +4,7 @@
 Plugin Name: [PC] Events
 Plugin URI: www.papier-code.fr
 Description: Actualités
-Version: 1.0.15
+Version: 1.0.16
 Author: Papier Codé
 */
 
@@ -50,7 +50,7 @@ add_action( 'admin_enqueue_scripts', 'pc_events_admin_enqueue_scripts' );
 =            Includes            =
 ================================*/
 
-add_action( 'plugins_loaded', 'pc_events_setup' );
+add_action( 'after_setup_theme', 'pc_events_setup' );
 
 	function pc_events_setup() {
 
