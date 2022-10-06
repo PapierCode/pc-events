@@ -3,31 +3,12 @@
  * 
  * [PC] Événements :  champs du post
  * 
- ** Reprise WPréform
  ** Information générales
  ** Dates & heures
  ** Lieu
  * 
  */
 
-
-/*========================================
-=            Reprise WPréform            =
-========================================*/
-
-add_filter( 'pc_filter_metabox_image_for', 'pc_events_edit_metabox_for', 10, 1 );
-add_filter( 'pc_filter_metabox_card_for', 'pc_events_edit_metabox_for', 10, 1 );
-add_filter( 'pc_filter_metabox_seo_for', 'pc_events_edit_metabox_for', 10, 1 );
-
-    function pc_events_edit_metabox_for( $for ) {
-
-        $for[] = EVENTS_POST_SLUG;
-        return $for;
-        
-    }
-
-
-/*=====  FIN Reprise WPréform  =====*/
 
 if ( class_exists('PC_Add_metabox') ) {
 

@@ -46,6 +46,30 @@ add_action( 'admin_enqueue_scripts', 'pc_events_admin_enqueue_scripts' );
 
 /*=====  FIN Admin  =====*/
 
+/*========================================
+=            Reprise WPréform            =
+========================================*/
+
+add_action( 'setup_theme', 'pc_events_setup_theme' );
+
+	function pc_events_setup_theme() {
+
+		add_filter( 'pc_filter_metabox_image_for', 'pc_events_edit_metabox_for', 10, 1 );
+		add_filter( 'pc_filter_metabox_card_for', 'pc_events_edit_metabox_for', 10, 1 );
+		add_filter( 'pc_filter_metabox_seo_for', 'pc_events_edit_metabox_for', 10, 1 );
+
+			function pc_events_edit_metabox_for( $for ) {
+
+				$for[] = EVENTS_POST_SLUG;
+				return $for;
+				
+			}
+
+	}
+
+
+/*=====  FIN Reprise WPréform  =====*/
+
 /*================================
 =            Includes            =
 ================================*/
