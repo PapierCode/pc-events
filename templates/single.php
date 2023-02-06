@@ -134,7 +134,7 @@ add_action( 'pc_action_page_main_content', 'pc_events_display_single_address', 3
 				echo '</dl></address>';
 				echo '</div>';
 
-				echo '<div class="location-map" id="map" data-lat="'.$metas['event-lat'].'" data-lng="'.$metas['event-lng'].'" aria-hidden="true"></div>';
+				echo '<div class="location-map" id="event-map" data-lat="'.$metas['event-lat'].'" data-lng="'.$metas['event-lng'].'" aria-hidden="true"></div>';
 				
 			echo '</div>';
 
