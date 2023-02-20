@@ -27,7 +27,8 @@ $metabox_event_status_fields = array(
 		array(
 			'type'      => 'checkbox',
 			'label'     => 'En distanciel',
-			'id'        => 'online'
+			'id'        => 'online',
+			'desc'		=> '<strong>Masque la carte</strong> aux internautes, pour autant <strong>l\'adresse reste obligatoire</strong> pour valider l\'événement auprès des moteurs de recherche.'
 		),
 		array(
 			'type'      => 'number',

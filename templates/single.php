@@ -119,24 +119,28 @@ add_action( 'pc_action_page_main_content', 'pc_events_display_single_address', 3
 
 		if ( is_singular( EVENTS_POST_SLUG ) ) {
 			
-			$metas = $pc_post->metas;		
-			
-			echo '<div class="location location--event">';
-			
-				echo '<div class="location-ico">'.pc_svg('map').'</div>';
+			$metas = $pc_post->metas;
 
-				echo '<div class="location-details">';
-				echo '<h2 class="location-title"> Adresse de l\'événement</h2>';
-				echo '<address><dl class="location-list">';
-					echo '<dt class="location-name">'.$metas['event-location-name'].'</dt>';
-					echo '<dd class="location-address">'.$metas['event-address'].' '.$metas['event-cp'].' '.$metas['event-city'].'</dd>';
-					echo '<dd class="location-link"><a href="https://www.google.com/maps/search/?api=1&query='.$metas['event-lat'].'%2C'.$metas['event-lng'].'" class="button" title="Itinéraire via Google Map (nouvelle fenêtre)" target="_blank" rel="noreferer nofollow"><span class="ico">'.pc_svg('arrow').'</span><span class="txt">Itinéraire</span></a></dd>';
-				echo '</dl></address>';
+			if ( !isset( $metas['event-infos-online'] ) ) {
+			
+				echo '<div class="location location--event">';
+				
+					echo '<div class="location-ico">'.pc_svg('map').'</div>';
+
+					echo '<div class="location-details">';
+					echo '<h2 class="location-title"> Adresse de l\'événement</h2>';
+					echo '<address><dl class="location-list">';
+						echo '<dt class="location-name">'.$metas['event-location-name'].'</dt>';
+						echo '<dd class="location-address">'.$metas['event-address'].' '.$metas['event-cp'].' '.$metas['event-city'].'</dd>';
+						echo '<dd class="location-link"><a href="https://www.google.com/maps/search/?api=1&query='.$metas['event-lat'].'%2C'.$metas['event-lng'].'" class="button" title="Itinéraire via Google Map (nouvelle fenêtre)" target="_blank" rel="noreferer nofollow"><span class="ico">'.pc_svg('arrow').'</span><span class="txt">Itinéraire</span></a></dd>';
+					echo '</dl></address>';
+					echo '</div>';
+
+					echo '<div class="location-map" id="event-map" data-lat="'.$metas['event-lat'].'" data-lng="'.$metas['event-lng'].'" aria-hidden="true"></div>';
+					
 				echo '</div>';
 
-				echo '<div class="location-map" id="event-map" data-lat="'.$metas['event-lat'].'" data-lng="'.$metas['event-lng'].'" aria-hidden="true"></div>';
-				
-			echo '</div>';
+			}
 
 		}
 
