@@ -35,10 +35,6 @@ pc_display_main_start();
 		if ( have_posts() ) { 
 
 			pc_events_display_filters( $pc_term->id );
-			
-			while ( have_posts() ) { 
-				
-				the_post();
 
 				// données structurées
 				$term_schema = array(
@@ -57,6 +53,10 @@ pc_display_main_start();
 				$events_list_item_key = 1;
 		
 				echo '<ul class="st-list st-list--events reset-list">';	
+			
+				while ( have_posts() ) { 
+					
+					the_post();
 
 					// début d'élément
 					echo '<li class="st st--event">';
@@ -72,12 +72,12 @@ pc_display_main_start();
 					// fin d'élément
 					echo '</li>';
 
+				}
+
 				echo '</ul>';
 		
 				// affichage données structurées
 				echo '<script type="application/ld+json">'.json_encode($term_schema,JSON_UNESCAPED_SLASHES).'</script>';
-
-			}
 
 		} else {
 
