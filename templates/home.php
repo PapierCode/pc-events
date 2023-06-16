@@ -65,6 +65,17 @@ add_action( 'pc_action_home_main_content', 'pc_events_display_home_last_events',
 			}
 
 			echo '</ul>';
+
+			$btn_more_args = apply_filters( 'pc_filter_events_home_btn_more', array(
+				'display' => false,
+				'css' => array( 'button' ),
+				'ico_id' => 'more-s',
+				'txt' => 'Tous les événements'
+			) );
+			if ( $btn_more_args['display'] ) {
+				echo '<div class="home-events-more"><a href="'.pc_get_page_by_custom_content(EVENTS_POST_SLUG).'" class="'.implode(' ',$btn_more_args['css']).'"><span class="ico">'.pc_svg($btn_more_args['ico_id']).'</span><span class="txt">'.$btn_more_args['txt'].'</span></a></div>';
+			}
+
 			echo '</div>';
 		}
 
