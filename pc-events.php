@@ -3,8 +3,8 @@
 /*
 Plugin Name: [PC] Events
 Plugin URI: www.papier-code.fr
-Description: Actualités
-Version: 1.1.0
+Description: Événement
+Version: 1.1.1
 Author: Papier Codé
 */
 
