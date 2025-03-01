@@ -4,8 +4,9 @@
 Plugin Name: [PC] Events
 Plugin URI: www.papier-code.fr
 Description: Événement
-Version: 1.1.1
+Version: 1.1.2
 Author: Papier Codé
+GitHub Plugin URI: https://github.com/PapierCode/pc-events
 */
 
 
